@@ -1,0 +1,10 @@
+order = 4
+date = "2024"
+image = "/assets/awards/2024-raicom/cover.png"
+
+title = { en = "RAICOM Robot Developer Competition", zh = "睿抗机器人开发者大赛（RAICOM）" }
+subtitle = { en = "National Second Prize", zh = "全国二等奖" }
+
+[content]
+en = "National finals, Smart Orchard track."
+zh = "全国总决赛 · 智慧果园竞赛项目。"

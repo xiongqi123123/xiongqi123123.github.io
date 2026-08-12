@@ -19,6 +19,12 @@
 
     运行完成后，你会发现在项目目录下多了一个名为 `out` 的文件夹。这里面就是你网站的所有静态文件。
 
+    > **务必使用 `npm run build` 构建（不要用 `npx next build`）。**
+    > `prebuild` 钩子会执行 `scripts/sync-assets.mjs`，把与内容同住在 `content/**` 里的图片、PDF
+    > 镜像到 `public/assets/**` —— 静态导出的站点只能从这里读取资源。绕过钩子就会得到一个没有图片的站点。
+    > `public/assets/` 是生成物且已被 git 忽略，资源真源是 `content/`。该脚本同时会在资源引用失效时
+    > 直接让构建失败，所以这一步报红通常意味着某个 `/assets/...` 路径写错了。
+
 2.  **创建一个 GitHub 仓库**
 
     *   登录 GitHub。
@@ -107,13 +113,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   /* config options here */
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.bib$/,
-      type: 'asset/source',
-    });
-    return config;
-  },
 };
 
 export default nextConfig;

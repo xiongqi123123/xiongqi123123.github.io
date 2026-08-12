@@ -1,0 +1,19 @@
+# 顶层键必须叫 news (src/app/page.tsx 硬约定)
+# 图标直接写进 content 文案末尾 (emoji), 中英文各写各的
+# 顺序即显示顺序 (不自动排序); 首页最多显示 5 条, 见 about/_page.toml 的 limit
+
+[[news]]
+date = "2026-08"
+content = { en = "Started my master's study at Xidian University. 🎉", zh = "入读西安电子科技大学，开始硕士阶段学习。🎉" }
+
+[[news]]
+date = "2026-08"
+content = { en = "Our paper \"Mind the Margin\" was accepted to IEEE Robotics and Automation Letters (RA-L). 🎉", zh = "论文 “Mind the Margin” 被 IEEE Robotics and Automation Letters (RA-L) 接收。🎉" }
+
+[[news]]
+date = "2026-06"
+content = { en = "Graduated from Changsha University of Science & Technology. 🎓", zh = "本科毕业于长沙理工大学。🎓" }
+
+[[news]]
+date = "2026-03"
+content = { en = "Won Second Prize at the MotrixArena S1 Simulation Challenge. 🏆", zh = "获 MotrixArena S1 仿真挑战赛二等奖。🏆" }

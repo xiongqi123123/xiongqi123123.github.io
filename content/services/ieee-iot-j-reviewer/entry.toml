@@ -1,0 +1,9 @@
+order = 1
+date = { en = "2026 - Present", zh = "2026 至今" }
+
+title = { en = "Reviewer", zh = "审稿人" }
+subtitle = "IEEE Internet of Things Journal"
+
+[content]
+en = "Reviewing submissions in the Internet of Things area."
+zh = "审阅物联网领域的投稿论文。"

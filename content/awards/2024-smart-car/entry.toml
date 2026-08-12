@@ -1,0 +1,10 @@
+order = 2
+date = "2024"
+image = "/assets/awards/2024-smart-car/cover.png"
+
+title = { en = "National University Student Intelligent Car Race", zh = "全国大学生智能汽车竞赛" }
+subtitle = { en = "National Second Prize", zh = "全国二等奖" }
+
+[content]
+en = "National finals of the 19th National University Student Intelligent Car Race."
+zh = "第十九届全国大学生智能汽车竞赛全国总决赛。"

@@ -1,0 +1,4 @@
+type = "publication"
+source = "publications"
+title = { en = "Publications", zh = "论文" }
+description = { en = "A collection of my research work.", zh = "我的研究成果列表。" }

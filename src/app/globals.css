@@ -253,3 +253,14 @@ body {
   /* Soften card borders in dark mode only */
   border-color: rgba(148, 163, 184, 0.24);
 }
+
+/* 隐藏滚动条视觉, 但保留可滚动能力。
+   用于 sticky 侧栏: 它只在矮视口下才会溢出, 而滚动条在列边缘一闪而过
+   看上去像渲染故障。内容仍可滚动(滚轮/触控板/键盘)。 */
+.no-scrollbar {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* 旧版 Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;              /* WebKit / Blink */
+}

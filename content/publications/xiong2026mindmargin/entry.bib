@@ -1,0 +1,16 @@
+% show_bibtex 控制 BibTeX 按钮: {false} 隐藏, {true} 或删掉该行则显示。
+@article{xiong2026mindmargin,
+  selected={true},
+  show_bibtex={false},
+  title = {Mind the Margin: Safety- and Physical-Aware Planning for End-to-End Autonomous Driving},
+  author = {Xiong, Qi and Zhang, Jinlai* and Hu, Chuan and Chen, Hao and Hu, Lin},
+  year = {2026},
+  month = aug,
+  journal = {IEEE Robotics and Automation Letters (RA-L)},
+  preview = {/assets/publications/xiong2026mindmargin/preview.png},
+  pdf = {/assets/publications/xiong2026mindmargin/MarginAD.pdf},
+  langid = {english},
+  abstract = {While end-to-end autonomous driving has demonstrated remarkable progress, existing frameworks frequently struggle with physical infeasibility, inadequate safety margins, and severe terminal drift over long planning horizons. These limitations stem from a fundamental disconnect between purely data-driven imitation and the stringent kinematic and safety constraints required in real-world driving. To bridge this gap, we propose MarginAD, a novel safety- and physical-aware planning framework that seamlessly integrates explicit physical priors and safety constraints into the end-to-end optimization pipeline. Specifically, MarginAD introduces physics-aware kinematic guidance that injects trajectory-level kinematic cues directly into the planning queries, promoting dynamically feasible motion generation. We then apply a safety-margin-aware collision loss to penalize unsafe proximity to predicted surrounding agents, and further use horizon-aware regression weighting to suppress terminal drift. Compared with the strong MomAD baseline, MarginAD reduces the average L2 error on nuScenes from 0.60 m to 0.55 m, the average collision rate from 0.09\% to 0.08\%, and the average TPC from 0.54 m to 0.47 m; on the more challenging Shift-nuScenes subset, it further reduces the average L2 error from 1.54 m to 0.75 m and the average collision rate from 0.38\% to 0.19\%.},
+  description={A safety- and physical-aware end-to-end autonomous driving planner that integrates kinematic guidance, safety-margin-aware collision loss, and horizon-aware regression weighting.},
+  keywords={End-to-End Autonomous Driving, Motion Planning, Safety, Physical Constraints}
+}

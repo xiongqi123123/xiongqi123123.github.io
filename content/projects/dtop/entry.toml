@@ -1,0 +1,30 @@
+order = 3
+selected = true
+date = "2025.07"
+image = "preview.png"
+link = "https://github.com/xiongqi123123/dtop"
+stars = 10
+
+title = { en = "Dtop", zh = "Dtop" }
+
+[content]
+en = "A system resource monitor for the RDK platform — what htop is to Linux and jtop is to Jetson. Built on btop."
+zh = "面向 RDK 平台的系统资源监控工具 —— Linux 有 htop，Jetson 有 jtop，RDK 有 Dtop。基于 btop 二次开发。"
+
+[details]
+en = """
+RDK ships `hrut_somstatus` for checking BPU utilization, but it is awkward over a serial console. Dtop gives the same information in a full terminal UI.
+
+- Supports **RDKS100** and **RDKX5**.
+- Monitors BPU / GPU / VPU / JPU utilization, plus S100 Main and MCU domain temperatures.
+- Switch the CPU governor directly from the interface.
+- Ships prebuilt arm64 binaries for Ubuntu 22.04.
+"""
+zh = """
+RDK 自带的 `hrut_somstatus` 可以查看 BPU 使用率，但在串口环境下很不方便。Dtop 用完整的终端界面提供同样的信息。
+
+- 已适配 **RDKS100** 与 **RDKX5**。
+- 监控 BPU / GPU / VPU / JPU 使用率，以及 S100 Main 域与 MCU 域温度。
+- 可直接在界面上切换 CPU 调度策略。
+- 提供 Ubuntu 22.04 的 arm64 预编译二进制。
+"""

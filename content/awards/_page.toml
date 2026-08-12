@@ -1,0 +1,4 @@
+type = "card"
+title = { en = "Awards", zh = "奖项" }
+description = { en = "Honors and awards I have received.", zh = "我获得的荣誉与奖项。" }
+# ★ 不要在这里写 [[items]]; items 由加载器扫描本目录下的 <entry-id>/entry.toml 生成

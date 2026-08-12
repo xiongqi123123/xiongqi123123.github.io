@@ -60,6 +60,10 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
     // Parse selected field (convert string to boolean)
     const selected = tags.selected === 'true' || tags.selected === 'yes';
 
+    // `show_bibtex = {false}` hides the BibTeX button for an entry whose citation is not
+    // final yet (accepted but not formally published). Default is to show it.
+    const showBibtex = !(tags.show_bibtex === 'false' || tags.show_bibtex === 'no');
+
     // Parse preview field (remove braces if present)
     const preview = tags.preview?.replace(/[{}]/g, '');
     const title = parseBibTeXInline(tags.title || 'Untitled');
@@ -86,6 +90,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       pages: tags.pages,
       doi: tags.doi,
       url: tags.url,
+      pdfUrl: tags.pdf || tags.pdfurl || tags.pdfUrl,
       code: tags.code,
       abstract: cleanBibTeXString(tags.abstract),
       description: cleanBibTeXString(tags.description || tags.note),
@@ -93,7 +98,12 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       preview,
 
       // Store original BibTeX (excluding custom fields)
-      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code']),
+      bibtex: showBibtex
+        // Excluded: site-internal fields (selected/show_bibtex/preview/pdf/description/keywords)
+        // plus `abstract` and `langid` — a citation someone copies should be the citation, not a
+        // 1.5 KB abstract dump. The abstract still renders in its own panel.
+        ? reconstructBibTeX(entry, ['selected', 'show_bibtex', 'preview', 'description', 'keywords', 'code', 'pdf', 'pdfurl', 'abstract', 'langid'])
+        : undefined,
     };
 
     // Clean up undefined fields

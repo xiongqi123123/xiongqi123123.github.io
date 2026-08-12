@@ -7,14 +7,16 @@ import News, { NewsItem } from '@/components/home/News';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
+import SelectedProjects from '@/components/home/SelectedProjects';
+import ProjectsList from '@/components/projects/ProjectsList';
 import type { SiteConfig } from '@/lib/config';
 import { Publication } from '@/types/publication';
-import { CardPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/page';
+import { CardItem, CardPageConfig, ProjectPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/page';
 import { useLocaleStore } from '@/lib/stores/localeStore';
 
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list';
+  type: 'markdown' | 'publications' | 'list' | 'projects';
   title?: string;
   source?: string;
   filter?: string;
@@ -22,13 +24,15 @@ interface SectionConfig {
   content?: string;
   publications?: Publication[];
   items?: NewsItem[];
+  projects?: CardItem[];
 }
 
 type PageData =
   | { type: 'about'; id: string; sections: SectionConfig[] }
   | { type: 'publication'; id: string; config: PublicationPageConfig; publications: Publication[] }
   | { type: 'text'; id: string; config: TextPageConfig; content: string }
-  | { type: 'card'; id: string; config: CardPageConfig };
+  | { type: 'card'; id: string; config: CardPageConfig }
+  | { type: 'project'; id: string; config: ProjectPageConfig };
 
 export interface HomePageLocaleData {
   author: SiteConfig['author'];
@@ -56,7 +60,10 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-background min-h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-1">
+        {/* sticky 必须落在 grid 单元格上, 且要 self-start —— 否则 align-items:stretch 会把
+            单元格拉成整行高度, 元素没有可移动的余量, sticky 看上去就"不生效"。
+            max-h + overflow-y-auto: 侧栏比视口高时内部滚动, 而不是把底部裁掉。 */}
+        <div className="lg:col-span-1 lg:sticky lg:top-8 lg:self-start lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto no-scrollbar">
           <Profile
             author={data.author}
             social={data.social}
@@ -95,6 +102,15 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
                         title={section.title}
                       />
                     );
+                  case 'projects':
+                    return (
+                      <SelectedProjects
+                        key={section.id}
+                        projects={section.projects || []}
+                        title={section.title}
+                        enableOnePageMode={data.enableOnePageMode}
+                      />
+                    );
                   default:
                     return null;
                 }
@@ -115,6 +131,12 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
               )}
               {page.type === 'card' && (
                 <CardPage
+                  config={page.config}
+                  embedded={true}
+                />
+              )}
+              {page.type === 'project' && (
+                <ProjectsList
                   config={page.config}
                   embedded={true}
                 />

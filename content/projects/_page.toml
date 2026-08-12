@@ -1,0 +1,3 @@
+type = "project"
+title = { en = "Open Source", zh = "开源项目" }
+description = { en = "Tools and skill packages I build and maintain.", zh = "我开发与维护的工具和 skill 包。" }

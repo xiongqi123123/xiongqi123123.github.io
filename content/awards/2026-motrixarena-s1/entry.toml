@@ -1,0 +1,14 @@
+order = 1
+date = "2026.03"
+image = "/assets/awards/2026-motrixarena-s1/cover.png"
+
+title = { en = "MotrixArena S1 Simulation Challenge", zh = "MotrixArena S1 仿真挑战赛" }
+subtitle = { en = "Second Prize", zh = "二等奖" }
+
+[content]
+en = "All-terrain locomotion control for quadruped robots: reinforcement-learning based algorithm design and engineering implementation."
+zh = "四足机器人全地形控制任务，基于强化学习的算法设计与工程实现。"
+
+[[attachments]]
+file = "/assets/awards/2026-motrixarena-s1/certificate.pdf"
+label = { en = "Certificate", zh = "获奖证书" }

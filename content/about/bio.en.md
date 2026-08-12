@@ -1,0 +1,3 @@
+I am currently a master's student at [Xidian University](https://www.xidian.edu.cn/) and received my bachelor's degree from [Changsha University of Science & Technology](https://www.csust.edu.cn/).
+
+My research interests include [end-to-end autonomous driving, robotics, and computer vision](). I believe that intelligent behavior begins with perception: without accurately "seeing" the world, an agent cannot respond to it with confidence. Perception is the starting point from which robots understand and interact with the world. My research therefore focuses on enabling machines to build robust and efficient visual understanding in complex, dynamic, and uncertain environments.

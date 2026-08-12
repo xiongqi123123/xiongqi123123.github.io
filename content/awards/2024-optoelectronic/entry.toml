@@ -1,0 +1,10 @@
+order = 5
+date = "2024.08"
+image = "/assets/awards/2024-optoelectronic/cover.png"
+
+title = { en = "National Optoelectronic Design Competition for College Students", zh = "全国大学生光电设计竞赛" }
+subtitle = { en = "National Third Prize", zh = "全国三等奖" }
+
+[content]
+en = "Finals of the 12th \"Xizhi Cup\", Creative track."
+zh = "第十二届「曦智杯」创意赛道决赛。"

@@ -1,0 +1,10 @@
+order = 3
+date = "2024.08"
+image = "/assets/awards/2024-craic/cover.png"
+
+title = { en = "China Robotics and Artificial Intelligence Competition", zh = "中国机器人及人工智能大赛" }
+subtitle = { en = "National Second Prize", zh = "全国二等奖" }
+
+[content]
+en = "26th national finals, Robot Application track (urban road recognition)."
+zh = "第二十六届全国总决赛 · 机器人应用赛（城市道路识别）。"

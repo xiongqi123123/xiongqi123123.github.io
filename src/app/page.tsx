@@ -1,14 +1,14 @@
 import { getConfig } from '@/lib/config';
-import { getMarkdownContent, getBibtexContent, getTomlContent, getPageConfig } from '@/lib/content';
+import { getMarkdownContent, getBibtexContent, getTomlContent, getPageConfig, getCardItems } from '@/lib/content';
 import { parseBibTeX } from '@/lib/bibtexParser';
 import HomePageClient, { type HomePageLocaleData } from '@/components/home/HomePageClient';
 import { Publication } from '@/types/publication';
-import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig } from '@/types/page';
+import { BasePageConfig, PublicationPageConfig, TextPageConfig, CardPageConfig, ProjectPageConfig, CardItem } from '@/types/page';
 import { getRuntimeI18nConfig } from '@/lib/i18n/config';
 
 interface SectionConfig {
   id: string;
-  type: 'markdown' | 'publications' | 'list';
+  type: 'markdown' | 'publications' | 'list' | 'projects';
   title?: string;
   source?: string;
   filter?: string;
@@ -16,6 +16,7 @@ interface SectionConfig {
   content?: string;
   publications?: Publication[];
   items?: NewsItem[];
+  projects?: CardItem[];
 }
 
 interface NewsItem {
@@ -27,7 +28,8 @@ type PageData =
   | { type: 'about'; id: string; sections: SectionConfig[] }
   | { type: 'publication'; id: string; config: PublicationPageConfig; publications: Publication[] }
   | { type: 'text'; id: string; config: TextPageConfig; content: string }
-  | { type: 'card'; id: string; config: CardPageConfig };
+  | { type: 'card'; id: string; config: CardPageConfig }
+  | { type: 'project'; id: string; config: ProjectPageConfig };
 
 function processSections(sections: SectionConfig[], locale?: string): SectionConfig[] {
   return sections.map((section: SectionConfig) => {
@@ -38,7 +40,7 @@ function processSections(sections: SectionConfig[], locale?: string): SectionCon
           content: section.source ? getMarkdownContent(section.source, locale) : '',
         };
       case 'publications': {
-        const bibtex = getBibtexContent('publications.bib', locale);
+        const bibtex = getBibtexContent(section.source || 'publications', locale);
         const allPubs = parseBibTeX(bibtex, locale);
         const filteredPubs = section.filter === 'selected'
           ? allPubs.filter((p) => p.selected)
@@ -50,9 +52,19 @@ function processSections(sections: SectionConfig[], locale?: string): SectionCon
       }
       case 'list': {
         const newsData = section.source ? getTomlContent<{ news: NewsItem[] }>(section.source, locale) : null;
+        const news = newsData?.news || [];
         return {
           ...section,
-          items: newsData?.news || [],
+          // `limit` caps the homepage list; omit it in _page.toml to show every entry.
+          items: section.limit ? news.slice(0, section.limit) : news,
+        };
+      }
+      case 'projects': {
+        const all = getCardItems(section.source || 'projects', locale);
+        const filtered = section.filter === 'selected' ? all.filter((p) => p.selected) : all;
+        return {
+          ...section,
+          projects: section.limit ? filtered.slice(0, section.limit) : filtered,
         };
       }
       default:
@@ -113,6 +125,14 @@ function loadPageDataForLocale(locale: string | undefined): HomePageLocaleData {
             type: 'card',
             id: item.target,
             config: pageConfig as CardPageConfig,
+          } as PageData;
+        }
+
+        if (pageConfig.type === 'project') {
+          return {
+            type: 'project',
+            id: item.target,
+            config: pageConfig as ProjectPageConfig,
           } as PageData;
         }
 

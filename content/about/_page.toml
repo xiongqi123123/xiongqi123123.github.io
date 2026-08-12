@@ -1,0 +1,37 @@
+type = "about"
+title = { en = "About", zh = "关于我" }
+
+[profile.research_interests]
+en = ["End-to-End Autonomous Driving", "Robotics", "Computer Vision"]
+zh = ["端到端自动驾驶", "机器人学", "计算机视觉"]
+
+# sections 是语言无关的结构, 只写一次; 只有 title 多语言
+# source 一律写"相对 content/ 根"的路径
+[[sections]]
+id = "about"
+type = "markdown"
+source = "about/bio.md"
+title = { en = "About", zh = "关于我" }
+
+[[sections]]
+id = "news"
+type = "list"
+source = "about/news.toml"
+title = { en = "News", zh = "动态" }
+limit = 5
+
+[[sections]]
+id = "featured_publications"
+type = "publications"
+source = "publications"
+title = { en = "Selected Publications", zh = "论文" }
+filter = "selected"
+limit = 5
+
+[[sections]]
+id = "featured_projects"
+type = "projects"
+source = "projects"
+title = { en = "Selected Projects", zh = "精选开源项目" }
+filter = "selected"
+limit = 5

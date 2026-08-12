@@ -17,6 +17,14 @@ This guide is designed for beginners. You don't need complex configurations to d
     npm run build
     ```
     This will create a folder named `out` in your project directory. This folder contains your generated website.
+
+    > **Always build with `npm run build` (not `npx next build`).**
+    > The `prebuild` hook runs `scripts/sync-assets.mjs`, which mirrors the images and PDFs
+    > that live next to your content in `content/**` into `public/assets/**` — the only place
+    > a statically exported site can serve them from. Skipping that hook means a site with no
+    > images. `public/assets/` is generated output and is git-ignored; the source of truth is
+    > `content/`. The same script also fails the build on broken asset references, so a red
+    > build here usually means a typo in a `/assets/...` path.
     
 2.  **Create a GitHub Repository**
     *   Log in to GitHub.
@@ -104,13 +112,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   /* config options here */
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.bib$/,
-      type: 'asset/source',
-    });
-    return config;
-  },
 };
 
 export default nextConfig;

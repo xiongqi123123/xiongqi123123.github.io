@@ -12,8 +12,6 @@ PRISM stands for **P**ortfolio & **R**esearch **I**nterface **S**ite **M**aker. 
 
 Feel free to customize your own version of PRISM with coding agents.
 
-![PRISM Preview](screenshot.png)
-
 ## ✨ Features
 
 *   **📄 Configuration-Driven**: Manage your entire site's content using simple `TOML`, `Markdown`, and `BibTeX` files in the `content/` directory. No code changes required for content updates!
@@ -57,51 +55,95 @@ Feel free to customize your own version of PRISM with coding agents.
 
 ## 🛠️ Configuration
 
-All content lives in the `content/` directory.
+All content lives in the `content/` directory — **one folder per entry**, with its text, images and PDFs living together. See **[docs/content-structure.md](docs/content-structure.md)** for the full guide.
+
+```
+content/
+├── config.toml                  # Site config (structure once + per-language copy)
+├── site/                        # Site-level assets (favicon, avatar)
+├── about/                       # Route /        — _page.toml, bio.<locale>.md, news.toml
+├── publications/                # Route /publications/
+│   └── <citation-key>/          #   entry.bib + preview.png (+ paper.pdf)
+├── awards/                      # Route /awards/
+│   └── <entry-id>/              #   entry.toml + cover.png (+ certificate.pdf)
+├── services/                    # Route /services/
+│   └── <entry-id>/entry.toml
+└── cv/                          # Route /cv/     — _page.toml, cv.<locale>.md
+```
 
 ### 1. Global Site Config (`content/config.toml`)
-Configure your site title, author details, social links, and navigation menu here.
+Configure your site title, author details, social links, and navigation menu here. Language-independent structure is written **once**; only the copy is per-language.
 
 ```toml
 [site]
-title = "Your Name"
-description = "Personal website of Your Name"
-url = "https://your-website.com"
+title = { en = "Your Name", zh = "你的名字" }
+description = { en = "Personal website of Your Name", zh = "某某某的个人主页" }
+favicon = "/assets/site/favicon.jpg"
 
 [author]
-name = "Your Name"
-title = "PhD Student / Researcher"
-# ...
+name = { en = "Your Name", zh = "你的名字" }
+title = { en = "PhD Student / Researcher", zh = "博士生 / 研究员" }
+avatar = "/assets/site/avatar.png"
 
 [features]
 enable_likes = true
+
+[[navigation]]
+type = "page"
+target = "awards"      # == content/awards/ folder name == route slug
+href = "/awards"
+title = { en = "Awards", zh = "奖项" }
 ```
 
-### 2. Homepage (`content/about.toml`)
-Customize the "About" section, "News", and "Selected Publications" on the homepage.
+### 2. Homepage (`content/about/_page.toml`)
+Customize the "About" section, "News", and "Selected Publications" on the homepage. Bio text lives in `content/about/bio.<locale>.md`, news items in `content/about/news.toml`.
 
-### 3. Publications (`content/publications.bib`)
-Export your publications from Google Scholar, Zotero, or Mendeley to `content/publications.bib`. PRISM automatically parses this file to generate your Publications page. Customize the display of publications by changing `selected`, `preview` and `description` keys in the bib file. 
+### 3. Publications (`content/publications/<citation-key>/entry.bib`)
+Each paper gets its own folder, named exactly after its BibTeX citation key, holding one `entry.bib` plus that paper's own preview image and PDF. Customize the display by changing the `selected`, `preview`, `pdf` and `description` keys in the bib file.
+
+**Custom bib field names must be all-lowercase** (`selected` / `preview` / `pdf` / `code` / `description`) — `Preview` or `PDF` are silently ignored.
 
 Publication titles support a subset of BibTeX inline formatting commands, including `\textit{}`, `\emph{}`, `\textbf{}`, `\textsc{}`, `\textsuperscript{}` and `\textsubscript{}`.
 
-### 4. Adding New Pages
-To add a new page (e.g., "Projects"), create a TOML file in `content/` (e.g., `content/projects.toml`) and add it to the `navigation` list in `content/config.toml`.
+### 4. Assets (`/assets/...`)
+Because the site is a static export, browsers can only reach files under `public/`. A prebuild hook mirrors every image/PDF from `content/` into `public/assets/`, keeping the same relative path:
+
+```
+content/awards/2024-craic/cover.png  ->  public/assets/awards/2024-craic/cover.png  ->  /assets/awards/2024-craic/cover.png
+```
+
+So **always reference assets as `/assets/...` absolute paths**. `public/assets/` is generated and git-ignored; the source of truth is `content/`. After dropping a new file into an entry folder, run `npm run sync` (or restart the dev server).
+
+```bash
+npm run sync             # mirror content/ assets into public/assets/
+npm run sync -- --check  # validate only, no writes (CI / pre-commit)
+```
+
+`npm run dev` and `npm run build` run this automatically via `predev` / `prebuild` hooks. Note that invoking `npx next build` directly bypasses them.
+
+### 5. Adding New Pages
+To add a new page (e.g., "Projects"), create `content/projects/_page.toml` and add a matching `[[navigation]]` entry (with `target = "projects"`) to `content/config.toml`.
 
 Supported page types:
 *   `text`: Renders Markdown content (Great for CVs, Bio).
-*   `card`: Renders a list of cards (Great for Projects, Awards). Content of each card item supports Markdown.
+*   `card`: Renders a list of cards (Great for Projects, Awards). Each card is its own `<entry-id>/entry.toml` folder; content supports Markdown, and entries can carry `attachments` (certificates, posters).
 *   `publication`: Renders the full publications list with filters.
 
-### 5. I18N Support (`content_<locale>/`)
-PRISM now supports i18n, i.e., multi-language.
+### 6. I18N Support (localized values)
+**Multi-language copy lives inside the files, not in separate directories.** There is no `content_<locale>/`.
 
-*   Default language lives in `content/`.
-*   Additional languages live in `content_<locale>/` (for example: `content_zh/`, `content_en/`).
-*   Keep the same filenames across directories. Example:
-    *   `content/cv.md` (default)
-    *   `content_zh/cv.md`
-*   If a localized file is missing, PRISM automatically falls back to the default `content/` version.
+```toml
+date = "2024.08"                                    # plain string  -> shared by all languages
+title = { en = "Second Prize", zh = "二等奖" }        # localized     -> one value per language
+
+[content]                                           # same thing, nicer for long text/arrays
+en = "Description in English."
+zh = "中文描述。"
+```
+
+Resolution order: current locale → `default_locale` → first available. Markdown uses filename suffixes instead: `bio.zh.md` → `bio.en.md` → `bio.md`.
+
+Adding a language means adding **one key** to the localized values you want translated (plus `bio.<locale>.md` / `cv.<locale>.md`) and registering it under `[i18n] locales` and `[i18n.labels]`. No structure is ever duplicated — navigation, sections and asset paths exist exactly once.
 
 Configure language behavior in `content/config.toml`:
 
@@ -121,8 +163,12 @@ This generates a static `out/` directory that can be hosted anywhere.
 
 ```
 PRISM/
-├── content/              # All user-editable content (TOML, BibTeX, MD)
-├── public/               # Static assets (images, papers)
+├── content/              # ✨ Single source of truth: text AND assets, one folder per entry
+├── public/               # Only generated output: public/assets/ (git-ignored)
+├── scripts/
+│   └── sync-assets.mjs   # Mirrors content/ assets -> public/assets/ + validates content
+├── docs/
+│   └── content-structure.md   # How to add a paper / an award / a language
 ├── src/
 │   ├── app/              # Next.js App Router
 │   ├── components/       # React components

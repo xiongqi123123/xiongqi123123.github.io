@@ -30,7 +30,14 @@ export interface LocaleMessages {
     about: string;
     news: string;
     selectedPublications: string;
+    selectedProjects: string;
     viewAll: string;
+  };
+  projects: {
+    details: string;
+    repository: string;
+    stars: string;
+    noResults: string;
   };
   publications: {
     searchPlaceholder: string;
@@ -80,7 +87,14 @@ const en: LocaleMessages = {
     about: 'About',
     news: 'News',
     selectedPublications: 'Selected Publications',
+    selectedProjects: 'Selected Projects',
     viewAll: 'View All',
+  },
+  projects: {
+    details: 'Details',
+    repository: 'Repository',
+    stars: 'Stars',
+    noResults: 'No projects yet.',
   },
   publications: {
     searchPlaceholder: 'Search publications...',
@@ -130,7 +144,14 @@ const zh: LocaleMessages = {
     about: '关于我',
     news: '动态',
     selectedPublications: '精选论文',
+    selectedProjects: '精选开源项目',
     viewAll: '查看全部',
+  },
+  projects: {
+    details: '详细介绍',
+    repository: '仓库',
+    stars: 'Star',
+    noResults: '暂无开源项目。',
   },
   publications: {
     searchPlaceholder: '搜索论文...',

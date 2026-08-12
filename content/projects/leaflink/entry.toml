@@ -1,0 +1,28 @@
+order = 2
+selected = true
+date = "2026.03"
+image = "logo.png"
+link = "https://github.com/xiongqi123123/LeafLink"
+stars = 11
+
+title = { en = "LeafLink", zh = "LeafLink" }
+
+[content]
+en = "A lightweight CLI tool for syncing local LaTeX projects with Overleaf, featuring pull/push workflows and pseudo real-time collaboration."
+zh = "一个轻量级命令行工具，用于在本地 LaTeX 项目与 Overleaf 之间同步，支持 pull/push 工作流与准实时协作。"
+
+[details]
+en = """
+LeafLink keeps a local LaTeX working copy and an Overleaf project in sync, so you can write in your own editor with your own toolchain while collaborators stay on Overleaf.
+
+- Pull / push workflows over the Overleaf project.
+- Pseudo real-time collaboration — changes propagate without leaving the local editor.
+- Published on PyPI; installable as a standalone CLI.
+"""
+zh = """
+LeafLink 让本地 LaTeX 工作副本与 Overleaf 项目保持同步，你可以用自己的编辑器和工具链写作，同时协作者继续留在 Overleaf 上。
+
+- 基于 Overleaf 项目的 pull / push 工作流。
+- 准实时协作 —— 改动无需离开本地编辑器即可传播。
+- 已发布到 PyPI，可作为独立命令行工具安装。
+"""

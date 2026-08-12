@@ -1,0 +1,29 @@
+order = 1
+selected = true
+date = "2026.05"
+image = "logo.png"
+link = "https://github.com/xiongqi123123/awesome-rebuttal"
+# GitHub star 数需手动更新: 静态导出没有后端, 无法实时拉取
+stars = 297
+
+title = { en = "Awesome Rebuttal", zh = "Awesome Rebuttal" }
+
+[content]
+en = "A project-level skill package for evidence-grounded academic rebuttal strategy and author-response drafting."
+zh = "面向学术论文 rebuttal 的项目级 skill 包，用于证据驱动的答辩策略制定与作者回复起草。"
+
+[details]
+en = """
+A global-installable, project-level skill for AI / ML / CV / NLP / Robotics paper rebuttals. It helps an AI coding assistant work inside a paper workspace: persist structured rebuttal memory, analyze reviewer concerns, plan supplementary experiments, and draft author responses under user-confirmed venue rules.
+
+- **Skill-first architecture** — one `SKILL.md` entry with layered atomic capability files.
+- **Project-local state** — runtime memory, drafts, snapshots, templates and logs stay under `.awesome-rebuttal/` in each paper workspace.
+- Compatible with Codex Skill, Claude Code, and Cursor rules.
+"""
+zh = """
+一个可全局安装的项目级 skill，面向 AI / ML / CV / NLP / 机器人方向的论文 rebuttal。它让 AI 编码助手在论文工作区内工作：沉淀结构化的 rebuttal 记忆、分析审稿人意见、规划补充实验，并在用户确认的会议规则下起草作者回复。
+
+- **Skill 优先架构** —— 单一 `SKILL.md` 入口，配合分层的原子能力文件。
+- **项目本地状态** —— 运行时记忆、草稿、快照、模板与日志都保存在各论文工作区的 `.awesome-rebuttal/` 下。
+- 兼容 Codex Skill、Claude Code 与 Cursor rules。
+"""
