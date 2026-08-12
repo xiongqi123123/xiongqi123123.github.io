@@ -135,7 +135,7 @@ Markdown 走的是文件名后缀: `bio.zh.md` → `bio.en.md` → `bio.md`, 找
 
 1. 建文件夹: `content/awards/<年份>-<赛事简称>/`
    命名只允许小写 ASCII `[a-z0-9-]`, 例如 `2025-robocup`。
-2. 把封面图和证书 PDF 放进去, 文件名也要全小写 ASCII: `cover.png`、`certificate.pdf`。
+2. 把封面图和证书 PDF 放进去。文件名必须是 **ASCII 且不含空格** (大小写可以混用, 例如 `MarginAD.pdf` 是合法的); 目录名仍必须全小写, 因为它同时是 URL 路径段。
 3. 写 `entry.toml`:
 
 ```toml
@@ -206,20 +206,32 @@ label = { en = "Certificate", zh = "获奖证书" }
 - 列表顺序由 bib 解析器按 `year` 降序 → `month` 降序自动排, 不用手工调。
 - `author` 里的 `*` (通讯作者) 和 `#` (共同一作) 标记会被前端识别并渲染。
 
-### MarginAD 论文 PDF 怎么放 (当前待办)
+### 论文 PDF 怎么放
 
-`entry.bib` 里原先写的 `pdf = {/papers/overview_horizon.pdf}` 是**死链** (文件从来不存在), 已在重构中移除, 所以现在 `/publications/` 页上没有 PDF 按钮。
+MarginAD 的 PDF 已经接上了, 现成的例子:
 
-真实 PDF 到手后:
+```
+content/publications/xiong2026mindmargin/
+├── entry.bib          # 里面写 pdf = {/assets/publications/xiong2026mindmargin/MarginAD.pdf}
+├── MarginAD.pdf
+└── preview.png
+```
 
-1. 把文件放到 `content/publications/xiong2026mindmargin/paper.pdf`
-2. 在 `content/publications/xiong2026mindmargin/entry.bib` 里加一行:
-   ```
-   pdf = {/assets/publications/xiong2026mindmargin/paper.pdf},
-   ```
-3. `npm run build` (prebuild 会自动把它镜像到 `public/assets/...`)
+新论文照做即可: 文件放进条目文件夹, 在 `entry.bib` 里加一行 `pdf = {...}`, `npm run build` 之后 PDF 按钮自动出现。
 
-PDF 按钮就会自动出现。**文件放进去之前不要先写这一行** —— 引用校验会因为"引用了不存在的资源"直接让构建失败。
+**顺序很重要**: 先放文件再写引用。反过来写的话, 引用校验会因为"引用了不存在的资源"直接让构建失败。
+
+### 暂时隐藏 BibTeX 按钮
+
+论文已录用但正式 bib 还没出来时, 在 `entry.bib` 里加:
+
+```bibtex
+show_bibtex={false},
+```
+
+BibTeX 按钮就不显示。正式 bib 出来后删掉这一行即可恢复。
+
+> 复制出来的 BibTeX 会自动剔除站内字段 (`selected` / `show_bibtex` / `preview` / `pdf` / `code` / `description` / `keywords`) 以及 `abstract` 和 `langid` —— 别人拿到的是干净的引用, 不会拖着一整段摘要。作者名里的 `*` (通讯) 和 `#` (共同一作) 标记也会被清掉。
 
 ---
 
@@ -229,7 +241,7 @@ PDF 按钮就会自动出现。**文件放进去之前不要先写这一行** �
 
 | 字段 | 类型 | 必填 | 说明 |
 |---|---|---|---|
-| `type` | `about` / `publication` / `card` / `text` | ✅ | 页面类型, 语言无关 |
+| `type` | `about` / `publication` / `card` / `project` / `text` | ✅ | 页面类型, 语言无关 |
 | `title` | localized string | ✅ | 页面标题 (也是浏览器标签页的 `<title>`) |
 | `description` | localized string | ❌ | 页面副标题 |
 | `source` | string | `publication` / `text` 必填 | 相对 `content/` 根的路径或目录名 |
@@ -255,10 +267,52 @@ PDF 按钮就会自动出现。**文件放进去之前不要先写这一行** �
 
 ## 7. 已知遗留 (不是 bug, 是还没填的坑)
 
-- **CV 只有骨架**: `content/cv/cv.en.md` / `content/cv/cv.zh.md` 里的模板假履历 ("The University of Example" / "某某大学" 那套) 已经清掉, 现在的内容全部来自 `content/` 里已有的事实 (学历、论文、奖项、服务)。经历、技能这些还没写, 需要自行补充。
+- **CV 内容偏薄**: `content/cv/cv.en.md` / `cv.zh.md` 现有内容 (学历、实习、论文、奖项、服务) 都与 `content/` 里的事实一致, 但技能、项目经历等还没写。**注意它和站点数据是人工同步的**, 改了奖项/论文别忘了回头同步 CV。
 - **`location_url` 是占位**: `content/config.toml` 里 `location_url = "https://maps.google.com"` 没有指向具体地点。
 - **BibTeX 里不要写 LaTeX 细空格 `\,`**: 页面不跑 LaTeX, `0.60\,m` 会原样渲染成 `0.60,m` (读起来像断句错误)。直接写普通空格 `0.60 m`。现有 abstract 已经改过。
 - **Markdown 里插图要写绝对路径**: 三处 Markdown 渲染都没有覆写 `img`, 所以 `bio.md` / `cv.md` 里写 `![](...)` 时路径必须是 `/assets/...` 开头。
 - **部署不会自动触发**: `.github/workflows/deploy.yml` 的 push 触发目前是注释状态, 推上 `main` 不会自动上线, 需要手动 workflow_dispatch。改完内容后"线上没变"通常是这个原因, 不是构建挂了。
 - **`svg2ico` 是没人用的遗留依赖**: 留在 `devDependencies` 里, 删它会引起 package-lock 大面积变更, 暂不处理。
 - **图片没有压过**: `images.unoptimized: true` 意味着浏览器下的就是原图。`content/site/avatar.png` 有 1.5 MB 却只渲染成 256×256, 另有 3 张奖项封面在 1 MB 上下。想减带宽就自己重新导出 (缩到 512px / 转 WebP), 改完文件名记得同步改引用。
+
+---
+
+## 8. 加一个开源项目 (project 页)
+
+`content/projects/` 是 `type = "project"` 页面。条目结构和 card 页完全一样 (走同一个加载器), 只是渲染成图标式卡片。
+
+```
+content/projects/<项目 id>/
+├── entry.toml
+└── logo.png          # 方形 logo 最合适: 渲染成 64×64 图标, 无背景框
+```
+
+```toml
+order = 1              # 升序; 不写的排最后
+selected = true        # 首页"精选开源项目"只显示 selected = true 的
+date = "2026.05"
+image = "logo.png"
+link = "https://github.com/<user>/<repo>"
+stars = 297            # 手写! 静态导出没有后端, 拉不到实时 star 数
+
+title = { en = "Awesome Rebuttal", zh = "Awesome Rebuttal" }
+
+[content]              # 卡片正文, 一两句话
+en = "..."
+zh = "..."
+
+[details]              # 可选: "详细介绍"按钮展开的长文, 支持 Markdown
+en = """..."""
+zh = """..."""
+```
+
+**字段说明**
+
+| 字段 | 说明 |
+|---|---|
+| `stars` | 手动维护。README 里用的是 shields.io 徽章, 那个是实时的; 站点这边不行 |
+| `selected` | 只影响首页那一块; 不管真假, 条目都会出现在 `/projects/` 页 |
+| `details` | 展开面板, 整卡宽度渲染 |
+| `image` | 方形 logo 最好。宽截图 (如 2:1) 在 64×64 框里会缩得很小 |
+
+首页那一块由 `content/about/_page.toml` 的 `featured_projects` 分区控制 (`filter = "selected"` + `limit`)。
