@@ -1,18 +1,22 @@
-name: Deploy PRISM to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
-  # Push triggers are disabled by default for template users.
-  # Uncomment the lines below to enable automatic deployment on push.
-  # push:
-  #  branches: 
-  #      - main
-  #      - ci
+  push:
+    branches:
+      - main
+  # 保留手动触发: 内容没变但想重新部署时用得上
   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# 同一时间只允许一个部署在跑。不取消进行中的那个 —— 部署到一半被打断
+# 会让线上处于中间状态, 宁可排队等它做完。
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -25,12 +29,17 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
+      # npm ci 而不是 npm install: 严格按 package-lock.json 装,
+      # 保证线上构建和本地用的是同一套依赖版本。
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
+      # prebuild 钩子会先跑 scripts/sync-assets.mjs:
+      # 把 content/** 下的图片/PDF 镜像到 public/assets/, 并校验死链与结构。
+      # 校验不过就直接构建失败, 不会把坏内容推上线。
       - name: Build site
         run: npm run build
 
