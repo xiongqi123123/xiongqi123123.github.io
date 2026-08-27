@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
@@ -13,6 +14,7 @@ import type { SiteConfig } from '@/lib/config';
 import { Publication } from '@/types/publication';
 import { CardItem, CardPageConfig, ProjectPageConfig, PublicationPageConfig, TextPageConfig } from '@/types/page';
 import { useLocaleStore } from '@/lib/stores/localeStore';
+import { cn } from '@/lib/utils';
 
 interface SectionConfig {
   id: string;
@@ -48,8 +50,43 @@ interface HomePageClientProps {
   defaultLocale: string;
 }
 
+// lg:top-8 在上方留了 2rem, 下方也留同样的量, 侧栏整体塞得进视口才允许 sticky。
+const STICKY_GUTTER_PX = 64;
+
+/**
+ * 侧栏是否能整个塞进视口。塞不下就不 sticky, 让它随页面滚动, 底部永远够得着。
+ *
+ * 之前的做法是 max-h + overflow-y-auto 让侧栏内部滚动, 但这是个坑: overflow 只要有一轴
+ * 不是 visible, 另一轴会被强制成 auto, 整个格子就成了裁剪容器; 它又是 sticky (定位元素),
+ * Profile 里联系方式的 tooltip (absolute, 邮箱那个会向左溢出格子) 逃不出去, 左半边被切掉。
+ * 所以格子上不能有任何 overflow, 改成量高度决定要不要 sticky。
+ */
+function useFitsViewport(ref: RefObject<HTMLDivElement | null>): boolean {
+  const [fits, setFits] = useState(true);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const check = () => setFits(el.offsetHeight + STICKY_GUTTER_PX <= window.innerHeight);
+    check();
+
+    const observer = new ResizeObserver(check);
+    observer.observe(el);
+    window.addEventListener('resize', check);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', check);
+    };
+  }, [ref]);
+
+  return fits;
+}
+
 export default function HomePageClient({ dataByLocale, defaultLocale }: HomePageClientProps) {
   const locale = useLocaleStore((state) => state.locale);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const sidebarFits = useFitsViewport(sidebarRef);
   const fallback = dataByLocale[defaultLocale] || Object.values(dataByLocale)[0];
   const data = dataByLocale[locale] || fallback;
 
@@ -62,8 +99,11 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* sticky 必须落在 grid 单元格上, 且要 self-start —— 否则 align-items:stretch 会把
             单元格拉成整行高度, 元素没有可移动的余量, sticky 看上去就"不生效"。
-            max-h + overflow-y-auto: 侧栏比视口高时内部滚动, 而不是把底部裁掉。 */}
-        <div className="lg:col-span-1 lg:sticky lg:top-8 lg:self-start lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto no-scrollbar">
+            ★ 这个格子上不要加 overflow-*: 会把联系方式的 tooltip 裁掉, 见 useFitsViewport。 */}
+        <div
+          ref={sidebarRef}
+          className={cn('lg:col-span-1 lg:self-start', sidebarFits && 'lg:sticky lg:top-8')}
+        >
           <Profile
             author={data.author}
             social={data.social}

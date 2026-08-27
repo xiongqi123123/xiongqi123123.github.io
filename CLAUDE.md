@@ -107,7 +107,7 @@ content/<页面>/<条目 id>/
 - **BibTeX 自定义字段名必须全小写**。写成 `Preview` / `PDF` 会被解析器**完全忽略**, 且不出现在页面 BibTeX 框里 (双重隐身)。校验器会拦。
 - **`%` 在 `.bib` 条目内部不是注释**。要写注释就放在 `@article{` 之前 (条目外的文本 BibTeX 一律忽略)。
 - **资源文件名**: ASCII 且无空格, 大小写可混用 (`MarginAD.pdf` 合法)。**目录名仍须全小写**, 因为它就是 URL 路径段。
-- **`position: sticky` 要落在 grid 单元格上并配 `self-start`**。放在被 framer-motion 接管的内层 `motion.div` 上不生效: 一是 transform 干扰, 二是 grid 默认 `align-items: stretch` 把单元格拉满高度, 元素没有可移动余量。首页左栏就是这么修的。
+- **`position: sticky` 要落在 grid 单元格上并配 `self-start`**。放在被 framer-motion 接管的内层 `motion.div` 上不生效: 一是 transform 干扰, 二是 grid 默认 `align-items: stretch` 把单元格拉满高度, 元素没有可移动余量。首页左栏就是这么修的。**但这个格子上不能再加 `overflow-y-auto`** (曾经为了“侧栏比视口高时内部滚动”加过): overflow 一轴非 visible 会连带另一轴, 格子变成裁剪容器, 联系方式 tooltip 向左溢出的部分会被切掉。现在是用 `useFitsViewport` 量高度, 塞不下就不 sticky。
 - **`Cannot find module for page: /_not-found`** 这类构建报错是 Next 15.3.3 的 `.next` 缓存问题, **不是代码错误**。`rm -rf .next` 后重建即可。偶发, 已遇到两次。
 - **部署不会自动触发**。`.github/workflows/deploy.yml` 的 push 触发是注释状态, 推 `main` 不会上线, 要手动 workflow_dispatch。"改了内容线上没变"通常是这个原因。
 - **图片没压缩**。`images.unoptimized: true`, 浏览器下的就是原图。`content/site/avatar.png` 1.5 MB 却只渲染 256×256。
