@@ -271,7 +271,7 @@ BibTeX 按钮就不显示。正式 bib 出来后删掉这一行即可恢复。
 - **`location_url` 是占位**: `content/config.toml` 里 `location_url = "https://maps.google.com"` 没有指向具体地点。
 - **BibTeX 里不要写 LaTeX 细空格 `\,`**: 页面不跑 LaTeX, `0.60\,m` 会原样渲染成 `0.60,m` (读起来像断句错误)。直接写普通空格 `0.60 m`。现有 abstract 已经改过。
 - **Markdown 里插图要写绝对路径**: 三处 Markdown 渲染都没有覆写 `img`, 所以 `bio.md` / `cv.md` 里写 `![](...)` 时路径必须是 `/assets/...` 开头。
-- **部署不会自动触发**: `.github/workflows/deploy.yml` 的 push 触发目前是注释状态, 推上 `main` 不会自动上线, 需要手动 workflow_dispatch。改完内容后"线上没变"通常是这个原因, 不是构建挂了。
+- **推上 `main` 会自动部署**: `.github/workflows/deploy.yml` 的 push 触发已启用, 手动 `workflow_dispatch` 只是备用。改完内容后"线上没变", 先去 GitHub Actions 看那次 run 是否失败。
 - **`svg2ico` 是没人用的遗留依赖**: 留在 `devDependencies` 里, 删它会引起 package-lock 大面积变更, 暂不处理。
 - **图片没有压过**: `images.unoptimized: true` 意味着浏览器下的就是原图。`content/site/avatar.png` 有 1.5 MB 却只渲染成 256×256, 另有 3 张奖项封面在 1 MB 上下。想减带宽就自己重新导出 (缩到 512px / 转 WebP), 改完文件名记得同步改引用。
 
