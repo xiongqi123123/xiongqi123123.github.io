@@ -43,7 +43,7 @@ content/<页面>/<条目 id>/
 
 | 事实 | 存在于 | 说明 |
 |---|---|---|
-| 论文 / 奖项 / 服务 / 实习 | `content/<页面>/<条目>/` **+** `content/cv/cv.en.md` **+** `cv.zh.md` **+** `README.md` **+** `README_cn.md` | CV 和 README 都是人工誊写的, 不从 content/ 生成 |
+| 论文 / 奖项 / 服务 / 实习 | `content/<页面>/<条目>/` **+** `content/cv/cv.en.md` **+** `cv.zh.md` **+** `README.md` **+** `README_cn.md` | CV 和 README 都是人工誊写的, 不从 content/ 生成。**论文例外: CV 只放代表作 (`selected={true}` 的那几篇), README 放全部** |
 | 动态 (News) | `content/about/news.toml` **+** `README.md` **+** `README_cn.md` | 同上 |
 | bio 正文 | `content/about/bio.en.md` / `bio.zh.md` **+** 两份 README 的"关于我" | 同上 |
 | 开源项目 star 数 | `content/projects/<id>/entry.toml` 的 `stars` | 手写。README 用的是 shields.io 徽章, 那个实时; 站点是静态导出, 拉不了 |

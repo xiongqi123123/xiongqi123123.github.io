@@ -1,9 +1,3 @@
-<!--
-以下内容全部取自 content/ 里已有的事实来源
-(about/bio.zh.md、about/news.toml、publications/、awards/、services/)。
-请按需补充自己的详细信息 —— 这就是一份普通 Markdown, 英文版在 content/cv/cv.en.md。
--->
-
 ## 教育背景
 
 **西安电子科技大学**，硕士研究生，*2026 - 至今*

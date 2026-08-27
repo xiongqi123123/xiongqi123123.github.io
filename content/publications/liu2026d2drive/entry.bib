@@ -1,0 +1,17 @@
+% ICIC 2026 (22nd International Conference on Intelligent Computing, Toronto, Canada, July 2026) 的 Poster。
+% Springer LNCS 正式卷号 / 页码 / DOI 还没拿到, 先隐藏 BibTeX 按钮; 拿到后补上 doi / volume / pages, 再删掉 show_bibtex 这一行。
+@inproceedings{liu2026d2drive,
+  show_bibtex={false},
+  title = {D\textsuperscript{2}Drive: Training-Free Dynamic Inference for End-to-End Autonomous Driving},
+  author = {Liu, Junxuan and Hu, Bin* and Zhang, Jinlai* and Xiong, Qi and Hu, Lin},
+  booktitle = {International Conference on Intelligent Computing (ICIC, Poster)},
+  year = {2026},
+  month = jul,
+  note = {Poster},
+  preview = {/assets/publications/liu2026d2drive/preview.png},
+  pdf = {/assets/publications/liu2026d2drive/D2Drive.pdf},
+  langid = {english},
+  abstract = {End-to-end autonomous driving frameworks have achieved strong performance in perception, prediction, and planning. However, their deep interaction architectures often introduce substantial computational overhead and inference latency, which hinders real-time deployment. To improve inference efficiency without retraining, we propose D²Drive, a training-free dynamic inference framework for end-to-end autonomous driving. D²Drive reduces redundant computation by exploiting feature stability during inference. It contains two complementary components. First, a dynamic exit mechanism terminates deeper computation when feature differences between adjacent layers become sufficiently small. Second, an FFN partial computation strategy selectively performs FFN operations on tokens with larger variations across layers, while stable tokens bypass redundant FFN computation. These two designs reduce computation at both the layer and token-computation levels. Unlike pruning, quantization, and retraining-based acceleration methods, D²Drive does not modify model parameters, task heads, or training objectives. Therefore, it can be directly applied to pretrained autonomous driving frameworks during inference. We evaluate D²Drive on four representative end-to-end autonomous driving frameworks, including UniAD, VAD, SparseDrive, and MomAD. The evaluation covers GFLOPs for the whole model, computation inside selected modules, planning accuracy, collision rate, tracking quality, and detection performance, providing a systematic protocol for analyzing the balance between efficiency and accuracy in training-free dynamic inference for autonomous driving systems.},
+  description={A training-free dynamic inference framework for end-to-end autonomous driving: adjacent-layer feature differences trigger dynamic exit from deep interaction layers, and FFN partial computation only processes high-variation tokens, cutting GFLOPs on UniAD, VAD, SparseDrive, and MomAD without retraining.},
+  keywords={Dynamic Inference, Training-Free Acceleration, Early Exit, Partial Computation, End-to-End Autonomous Driving}
+}

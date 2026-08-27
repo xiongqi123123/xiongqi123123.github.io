@@ -10,7 +10,7 @@
 title = { en = "Qi Xiong", zh = "熊旗" }
 description = { en = "Personal website of Qi Xiong, researching end-to-end autonomous driving, robotics, and computer vision.", zh = "熊旗的个人主页" }
 favicon = "/assets/site/favicon.jpg"
-last_updated = { en = "August 12, 2026", zh = "2026年08月12日" }
+last_updated = { en = "August 27, 2026", zh = "2026年08月27日" }
 
 [author]
 name = { en = "Qi Xiong", zh = "熊旗" }

@@ -1,10 +1,3 @@
-<!--
-Every line below is taken from facts already recorded elsewhere in content/
-(about/bio.en.md, about/news.toml, publications/, awards/, services/).
-Expand it with your own details — this is plain Markdown, and
-content/cv/cv.zh.md is its Chinese counterpart.
--->
-
 ## Education
 
 **Xidian University**, Master's student, *2026 - Present*

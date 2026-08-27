@@ -45,6 +45,10 @@ My research interests include end-to-end autonomous driving, robotics, and compu
   <ins>Qi Xiong</ins>, Jinlai Zhang, Chuan Hu, Hao Chen, Lin Hu.
   *IEEE Robotics and Automation Letters (RA-L)*, 2026.
 
+- **D²Drive: Training-Free Dynamic Inference for End-to-End Autonomous Driving**
+  Junxuan Liu, Bin Hu, Jinlai Zhang, <ins>Qi Xiong</ins>, Lin Hu.
+  *International Conference on Intelligent Computing (ICIC)*, 2026. Poster.
+
 - **An Innovative Approach to Multi-Objective Infrared Temperature Measurement for Electrical Power Equipment Using K-Means**
   Heye Wang, Xiongjun Shang, <ins>Qi Xiong</ins>, Jiahao Liang, Yangyang Huang.
   *2023 8th International Conference on Control, Robotics and Cybernetics (CRC)*, 2024, pp. 165–171.
