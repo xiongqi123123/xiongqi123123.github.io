@@ -20,14 +20,14 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -35,7 +35,10 @@ jobs:
       # npm ci 而不是 npm install: 严格按 package-lock.json 装,
       # 保证线上构建和本地用的是同一套依赖版本。
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund
+        env:
+          npm_config_registry: https://registry.npmjs.org
+          npm_config_fetch_retries: 5
 
       # prebuild 钩子会先跑 scripts/sync-assets.mjs:
       # 把 content/** 下的图片/PDF 镜像到 public/assets/, 并校验死链与结构。
@@ -50,7 +53,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
