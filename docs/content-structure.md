@@ -38,7 +38,7 @@ content/
 │
 ├── publications/                     # 路由 /publications/
 │   ├── _page.toml
-│   └── xiong2026mindmargin/          # ★ 文件夹名 == BibTeX citation key
+│   └── xiong2026mind/          # ★ 文件夹名 == BibTeX citation key
 │       ├── entry.bib
 │       └── preview.png
 │
@@ -176,20 +176,20 @@ label = { en = "Certificate", zh = "获奖证书" }
 ## 5. 加一篇论文 (publication 页)
 
 1. 建文件夹: `content/publications/<citation key>/`
-   **文件夹名必须等于 BibTeX 的 citation key**, 例如 `xiong2026mindmargin`。构建期会强制校验, 不一致直接构建失败。
+   **文件夹名必须等于 BibTeX 的 citation key**, 例如 `xiong2026mind`。构建期会强制校验, 不一致直接构建失败。
 2. 把预览图和论文 PDF 放进去: `preview.png`、`paper.pdf`。
 3. 写 `entry.bib`, **一个文件有且仅有一条** `@xxx{...}`:
 
 ```bibtex
-@article{xiong2026mindmargin,
+@article{xiong2026mind,
   selected={true},
   title = {Mind the Margin: ...},
   author = {Xiong, Qi and Zhang, Jinlai* and ...},
   year = {2026},
   month = aug,
   journal = {IEEE Robotics and Automation Letters (RA-L)},
-  preview = {/assets/publications/xiong2026mindmargin/preview.png},
-  pdf = {/assets/publications/xiong2026mindmargin/paper.pdf},
+  preview = {/assets/publications/xiong2026mind/preview.png},
+  pdf = {/assets/publications/xiong2026mind/paper.pdf},
   doi = {...},
   code = {https://github.com/...},
   abstract = {...},
@@ -211,8 +211,8 @@ label = { en = "Certificate", zh = "获奖证书" }
 MarginAD 的 PDF 已经接上了, 现成的例子:
 
 ```
-content/publications/xiong2026mindmargin/
-├── entry.bib          # 里面写 pdf = {/assets/publications/xiong2026mindmargin/MarginAD.pdf}
+content/publications/xiong2026mind/
+├── entry.bib          # 里面写 pdf = {/assets/publications/xiong2026mind/MarginAD.pdf}
 ├── MarginAD.pdf
 └── preview.png
 ```
